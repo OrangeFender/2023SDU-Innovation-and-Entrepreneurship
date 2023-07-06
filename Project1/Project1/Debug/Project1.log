@@ -1,0 +1,6 @@
+﻿  sm3.cpp
+sm3.obj : error LNK2019: 无法解析的外部符号 _EVP_Digest，函数 _main 中引用了该符号
+sm3.obj : error LNK2019: 无法解析的外部符号 _EVP_sm3，函数 _main 中引用了该符号
+C:\Program Files\OpenSSL-Win64\lib\libssl.lib : warning LNK4272: 库计算机类型“x64”与目标计算机类型“x86”冲突
+C:\Program Files\OpenSSL-Win64\lib\libcrypto.lib : warning LNK4272: 库计算机类型“x64”与目标计算机类型“x86”冲突
+C:\Users\lzdwy\Desktop\暑期\创新创业\实验一\Project1\Debug\Project1.exe : fatal error LNK1120: 2 个无法解析的外部命令

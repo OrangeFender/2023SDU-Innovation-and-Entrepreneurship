@@ -1,0 +1,7 @@
+﻿  SM3.c
+C:\CPP\Innovation Practical\Repo\Project4\SM3.c(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+C:\CPP\Innovation Practical\Repo\Project4\SM3.c(64,24): warning C4133: “函数”: 从“UINT32 *”到“const __m256i *”的类型不兼容
+C:\CPP\Innovation Practical\Repo\Project4\SM3.c(65,26): warning C4133: “函数”: 从“UINT32 *”到“const __m256i *”的类型不兼容
+C:\CPP\Innovation Practical\Repo\Project4\SM3.c(67,33): warning C4133: “函数”: 从“__m256 *”到“__m256i *”的类型不兼容
+C:\CPP\Innovation Practical\Repo\Project4\SM3.c(109,13): warning C4133: “初始化”: 从“unsigned char *”到“UINT32 *”的类型不兼容
+  Project4.vcxproj -> C:\CPP\Innovation Practical\Repo\Project4\x64\Debug\Project4.exe

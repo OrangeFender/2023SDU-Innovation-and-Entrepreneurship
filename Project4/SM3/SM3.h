@@ -1,0 +1,1 @@
+int SM3(int length, unsigned char* m, unsigned char* hash);

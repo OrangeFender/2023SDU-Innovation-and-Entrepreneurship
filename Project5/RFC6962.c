@@ -12,11 +12,14 @@ transection*lleaf;
 transection*rleaf;
 }Node;
 
+Node* buildFulltree(){
+    
+}
+
 int build(int amount,transection* trans){
 int depth;
-for(depth=0;(amount>>depth)>0;depth++);
+for(depth=0;(amount>>1)>0;depth++);
 
-while(depth>0){
-        
-}
+Node * roots;
+for(int i=0;i<depth;i++)
 }

@@ -18,8 +18,5 @@
     <ClCompile Include="MerkelTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RFC6962.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

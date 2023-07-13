@@ -1,6 +1,7 @@
 #include<iostream>
 #include "openssl/sha.h"
 #include<cstring>
+#include <windows.h>
 
 #define transection_length 256
 #define hashlength 32
@@ -347,7 +348,20 @@ int main() {//²âÊÔ³ÌÐò£¬¹¹Ôì10w±Ê¶©µ¥£¬¶©µ¥±àºÅÎªÁ¬ÐøµÄÅ¼Êý£¬Ö¤Ã÷Ò»¸öÅ¼Êý¶©µ¥´æÔ
         T[i].ID = i * 2;
         *(int*)(T[i].detial+4)= i * 2;
     }
+
+    LARGE_INTEGER frequency, start, end;
+    double elapsed_time;
+
+    // »ñÈ¡ÆµÂÊ
+    QueryPerformanceFrequency(&frequency);
+    // »ñÈ¡¿ªÊ¼Ê±¼ä
+    QueryPerformanceCounter(&start);
     Node* root = build(amount, T);
+    QueryPerformanceCounter(&end);
+    // ¼ÆËãÔËÐÐÊ±¼ä£¨ÒÔºÁÃëÎªµ¥Î»£©
+    elapsed_time = (double)(end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
+    // Êä³öÔËÐÐÊ±¼ä
+    printf("buildÔËÐÐÊ±¼ä£º%.2f ºÁÃë\n", elapsed_time);
     root->printhash();
     int pathlen1=0,pathlen2=0;
 

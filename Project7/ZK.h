@@ -1,6 +1,6 @@
 #pragma once
 #include<stdint.h>
-#define base 16
+#define Base 16
 #define basebit 4
 #define maxdigit 8
 #define Hashlength 32

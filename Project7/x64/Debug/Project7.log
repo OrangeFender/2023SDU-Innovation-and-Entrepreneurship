@@ -1,11 +1,2 @@
-﻿  test.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xutility(1302,36): error C2059: 语法错误:“常数”
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xutility(1437,2): message : 查看对正在编译的 类 模板 实例化“std::reverse_iterator<_BidIt>”的引用
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xutility(1302,1): error C2334: “{”的前面有意外标记；跳过明显的函数体
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xutility(3775,43): error C2059: 语法错误:“常数”
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xutility(3965,2): message : 查看对正在编译的 类 模板 实例化“std::move_iterator<_Iter>”的引用
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xutility(3776,1): error C2334: “{”的前面有意外标记；跳过明显的函数体
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.35.32215\include\xutility(3965,1): fatal  error C1903: 无法从以前的错误中恢复；正在停止编译
-  ZK.cpp
-C:\CPP\Innovation Practical\Repo\Project7\ZK.cpp(97,23): warning C4018: “<”: 有符号/无符号不匹配
-  正在生成代码...
+﻿ZK.obj : error LNK2019: 无法解析的外部符号 SHA256，函数 "class Node * __cdecl CreatTree(unsigned int *,unsigned char (* const)[32],int)" (?CreatTree@@YAPEAVNode@@PEAIQEAY0CA@EH@Z) 中引用了该符号
+C:\CPP\Innovation Practical\Repo\Project7\x64\Debug\Project7.exe : fatal error LNK1120: 1 个无法解析的外部命令

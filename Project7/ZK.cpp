@@ -2,7 +2,7 @@
 #include"openssl/sha.h"
 #include <ctime>
 #include<stdint.h>
-#define base 16
+#define Base 16
 #define basebit 4
 #define maxdigit 8
 #define Hashlength 32
@@ -40,13 +40,7 @@ public:
     }
 }Node;
 
-typedef class proveNode {
-public:
-    bool LorR;
-    char hash[Hashlength];
-    proveNode(bool LR, char* h);
-    proveNode();
-}proveNode;
+
 
 void countMDPs(uint32_t V,
     uint32_t MDPv[maxdigit], //存储每一种证明的值
@@ -80,8 +74,8 @@ void creatMDP(unsigned char seed[maxdigit][Hashlength],
         generateRandomArray(salt[i], Hashlength);
     unsigned char*** h = new unsigned char** [maxdigit];
     for (int i = 0; i < maxdigit; i++) {
-        h[i] = new unsigned char* [base];
-        for (int j = 0; j < base; j++) {
+        h[i] = new unsigned char* [Base];
+        for (int j = 0; j < Base; j++) {
             h[i][j] = new unsigned char[Hashlength];
         }
     }//用于存储所有的中间哈希值
@@ -94,11 +88,11 @@ void creatMDP(unsigned char seed[maxdigit][Hashlength],
         V=V >> basebit;
         max++;
     }
-    for (int i = 1; i < V; i++) {
+    for (uint32_t i = 1; i < V; i++) {
         SHA256(h[max][i - 1], Hashlength, h[max][i]);
     }
     for (int j = 0; j < max; j++) {
-        for (int i = 1; i < base; i++) {
+        for (int i = 1; i < Base; i++) {
             SHA256(h[j][i - 1], Hashlength, h[j][i]);
         }
     }
@@ -113,7 +107,7 @@ void creatMDP(unsigned char seed[maxdigit][Hashlength],
         SHA256(tmp+(maxdigit + 1) * Hashlength,Hashlength,MDP[j]);
     }
     for (int i = 0; i < maxdigit; i++) {
-        for (int j = 0; j < base; j++) {
+        for (int j = 0; j < Base; j++) {
             delete[] h[i][j];
         }
         delete[] h[i];

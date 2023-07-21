@@ -9,7 +9,6 @@ int main() {
 	unsigned char seed[maxdigit][Hashlength];
 	unsigned char salt[maxdigit][Hashlength];
 	unsigned char MDP[maxdigit][Hashlength];
-	uint32_t MDPv[maxdigit];
 	creatMDP(seed,salt,MDP,MDPv,NofMDPs);
 	uint32_t shuffle[maxdigit];
 	Node* r = CreatTree(shuffle,MDP,NofMDPs);

@@ -17,6 +17,7 @@ public:
     bool finished;
     Node(Node* f);
     ~Node();
+    void print();
 }Node;
 
 void countMDPs(uint32_t V,

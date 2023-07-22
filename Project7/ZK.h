@@ -1,7 +1,7 @@
 #pragma once
 #include<stdint.h>
-#define Base 16
-#define basebit 4
+#define basevalue 16
+#define basevaluebit 4
 #define maxdigit 8
 #define Hashlength 32
 #define Treeheight 10//Merkel Tree高度为10
@@ -49,7 +49,7 @@ void give_proof(uint32_t ProveV,//请求证明的值
     uint32_t& Shuffle,
     unsigned char pad[Treeheight - 1][Hashlength]);
 
-bool confirmation(uint32_t Value,
+bool confirmation(uint32_t Value,//验证者进行验证
     unsigned char rootcommit[Hashlength],
     unsigned char start[maxdigit][Hashlength],
     unsigned char Salt[Hashlength],

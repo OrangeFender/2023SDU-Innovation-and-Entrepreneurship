@@ -2,9 +2,9 @@
 #include"openssl/sha.h"
 #include <ctime>
 #include<stdint.h>
-#define Base 16
-#define basebit 4
-#define basemask 0xF
+#define basevalue 16
+#define basevaluebit 4
+#define basevaluemask 0xF
 #define maxdigit 8
 #define Hashlength 32
 #define Treeheight 10//Merkel Tree高度为10
@@ -58,14 +58,13 @@ void countMDPs(uint32_t Value,
     uint32_t MDPv[maxdigit], //存储每一种证明的值
     int &NofMDPs//记录数组的长度
     ) {
-    uint32_t V = Value;
-    uint32_t mask = 0;
-    MDPv[0] = V;
-    int ind = 1;
     
+    uint32_t mask = 0;
+    MDPv[0] = Value;
+    int ind = 1;
     for (int i = 1; i < maxdigit; i++) {
-        mask |= basemask << (4 * i);
-        if ((V & (~mask) )== 0)break;
+        uint32_t V = Value;
+        mask |= basevaluemask << (4 * i);
         if ((V & mask) ^ mask) {
             V -=0x10 << (4 * i);
             V |= mask;
@@ -89,8 +88,8 @@ void creatMDP(unsigned char seed[maxdigit][Hashlength],
         generateRandomArray(salt[i], Hashlength);
     unsigned char*** h = new unsigned char** [maxdigit];
     for (int i = 0; i < maxdigit; i++) {
-        h[i] = new unsigned char* [Base];
-        for (int j = 0; j < Base; j++) {
+        h[i] = new unsigned char* [basevalue];
+        for (int j = 0; j < basevalue; j++) {
             h[i][j] = new unsigned char[Hashlength];
         }
     }//用于存储所有的中间哈希值
@@ -99,15 +98,15 @@ void creatMDP(unsigned char seed[maxdigit][Hashlength],
     for (int i = 0; i < maxdigit; i++) {
         memcpy(h[i][0], seed[i],Hashlength);
     }
-    while (V >> basebit !=0) {
-        V=V >> basebit;
+    while (V >> basevaluebit !=0) {
+        V=V >> basevaluebit;
         max++;
     }
     for (uint32_t i = 1; i <= V; i++) {
         SHA256(h[max][i - 1], Hashlength, h[max][i]);
     }
     for (int j = 0; j < max; j++) {
-        for (int i = 1; i < Base; i++) {
+        for (int i = 1; i < basevalue; i++) {
             SHA256(h[j][i - 1], Hashlength, h[j][i]);
         }
     }
@@ -116,13 +115,13 @@ void creatMDP(unsigned char seed[maxdigit][Hashlength],
         memcpy(tmp,salt[j],Hashlength);
         uint32_t t = MDPv[j];
         for (int i = 0; i < maxdigit; i++) {
-            memcpy(tmp+(i+1)*Hashlength,h[i][t&basemask], Hashlength);
-            t=t >> basebit;
+            memcpy(tmp+(i+1)*Hashlength,h[i][t&basevaluemask], Hashlength);
+            t=t >> basevaluebit;
         }
         SHA256(tmp,(maxdigit + 1) * Hashlength,MDP[j]);
     }
     for (int i = 0; i < maxdigit; i++) {
-        for (int j = 0; j < Base; j++) {
+        for (int j = 0; j < basevalue; j++) {
             delete[] h[i][j];
         }
         delete[] h[i];
@@ -223,16 +222,16 @@ void give_proof(uint32_t ProveV,//请求证明的值
         memcpy(start[i], seed[i], Hashlength);
     }
     for (int i = 0; i < maxdigit; i++) {
-        int v = diff & basemask;
+        int v = diff & basevaluemask;
         for (int j = 0; j < v; j++) {
             SHA256(start[i], Hashlength, start[i]);
         }
-        diff=diff>>basebit;
+        diff=diff>>basevaluebit;
     }
     Node *n= root;
     Node* tmp;
     int s = Shuffle;
-    for (int i = Treeheight-2;i>=0;i--) {
+    for (int i = Treeheight-2;i>=0;i--) {//从下往上索引
         if ((s >> i) & 1) {
             tmp = n->lchild;
             n = n->rchild;
@@ -253,7 +252,7 @@ bool confirmation(uint32_t Value,
     uint32_t Shuffle,
     unsigned char pad[Treeheight - 1][Hashlength]) {
     for (int i = 0; i < maxdigit; i++) {
-        int v = Value>>(i*basebit) & basemask;
+        int v = Value>>(i*basevaluebit) & basevaluemask;
         for (int j = 0; j < v; j++) {
             SHA256(start[i], Hashlength, start[i]);
         }

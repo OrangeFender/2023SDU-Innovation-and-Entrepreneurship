@@ -1,7 +1,7 @@
 ﻿  test.cpp
   正在生成代码
-  1 of 10 functions (10.0%) were compiled, the rest were copied from previous compilation.
+  2 of 23 functions ( 8.7%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
   Project7.vcxproj -> C:\CPP\Innovation Practical\Repo\Project7\x64\Release\Project7.exe

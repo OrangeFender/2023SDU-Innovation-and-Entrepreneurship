@@ -4,9 +4,9 @@
 
 ECDMA、Schnorr、SM2-sig存在共同的陷阱，主要陷阱如下：
 
-$\sdot$ Leaking  $k$ leads to leaking of $d$
+ $\sdot$ Leaking  $k$ leads to leaking of $d$
 
-$\sdot$ Reusing $k$ leads to leaking of $d$
+ $\sdot$ Reusing $k$ leads to leaking of $d$
 
 $\sdot$ Two users, using $k$ leads to leaking of $d$, that is they can deduce each other’s $d$
 

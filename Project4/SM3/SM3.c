@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <immintrin.h>
 #include "SM3.h"
 
@@ -66,10 +67,12 @@ int SM3(int length, unsigned char* m, unsigned char* hash) {
     for (int i = 0; i < l; i++) {
         M[i] = 0;
     }
+    memset(M,0,l);
 
     for(int i=0;i<length;i++){
         M[i]=m[i];
     }
+    memcpy(M, m, length);
     M[length]=0x80;
 
     for (int i = 0; i < length + 1; i += 32) {

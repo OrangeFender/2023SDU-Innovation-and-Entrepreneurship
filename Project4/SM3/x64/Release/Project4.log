@@ -1,8 +1,10 @@
-﻿  SM3.c
-C:\CPP\Innovation Practical\Repo\Project4\SM3.c(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-C:\CPP\Innovation Practical\Repo\Project4\SM3.c(58,13): warning C4133: “初始化”: 从“unsigned char *”到“UINT32 *”的类型不兼容
-  SM3.obj : 找到 MSIL .netmodule 或使用 /GL 编译的模块；正在使用 /LTCG 重新启动链接；将 /LTCG 添加到链接命令行以改进链接器性能
+﻿cl : 命令行  warning D9002: 忽略未知选项“/arch:SSE2”
+  Expand.c
+C:\CPP\Innovation Practical\Repo\Project4\SM3\Expand.c(64,38): warning C4133: “函数”: 从“UINT32 *”到“const __m256i *”的类型不兼容
+C:\CPP\Innovation Practical\Repo\Project4\SM3\Expand.c(65,42): warning C4133: “函数”: 从“UINT32 *”到“const __m256i *”的类型不兼容
+C:\CPP\Innovation Practical\Repo\Project4\SM3\Expand.c(67,45): warning C4133: “函数”: 从“__m256 *”到“__m256i *”的类型不兼容
+  Expand.obj : 找到 MSIL .netmodule 或使用 /GL 编译的模块；正在使用 /LTCG 重新启动链接；将 /LTCG 添加到链接命令行以改进链接器性能
 x64\Release\SM3.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
   正在生成代码
   已完成代码的生成
-  Project4.vcxproj -> C:\CPP\Innovation Practical\Repo\Project4\x64\Release\Project4.exe
+  Project4.vcxproj -> C:\CPP\Innovation Practical\Repo\Project4\SM3\x64\Release\Project4.exe

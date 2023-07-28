@@ -1,91 +1,206 @@
-#include <iostream>
 #include <openssl/evp.h>
-#include <string>
-#include <bitset>
+#include <stdio.h>
+#include<iostream>
+#include <stdint.h>
+#include <Windows.h>
 
-#include<cstdlib>
-#include<ctime>
 
-using namespace std;
-#define collision_length 28
+//#define find32bit
+#define findBest
 
-unsigned short arr[ 2 << 28];//全局变量都是0
-
-int hash28(char a, char b, char c, char d)
+uint32_t hash_out4byte(uint32_t x)
 {
-	std::bitset<8> binary0(a);
-	//std::cout << binary0 << std::endl;
-	std::bitset<8> binary1(b);
-	//std::cout << binary1 << std::endl;
-	std::bitset<8> binary2(c);
-	//std::cout << binary2 << std::endl;
-	std::bitset<8> binary3(d);
-	//std::cout << binary3 << std::endl;
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_len;
 
-	unsigned int num0 = static_cast<unsigned int>(binary0.to_ulong());
-	unsigned int num1 = static_cast<unsigned int>(binary1.to_ulong());
-	unsigned int num2 = static_cast<unsigned int>(binary2.to_ulong());
-	unsigned int num3 = static_cast<unsigned int>(binary3.to_ulong());
+    EVP_Digest(&x, 4, hash, &hash_len, EVP_sm3(), NULL);
 
-	int tem1 = (num0 << 24) | (num1 << 16) | (num2 << 8) | num3;
-
-	int mask = (1 << 28) - 1;  // 28 位全为 1 的数
-	int tem2 = tem1 & mask;
-	return tem2;
-
+    return ((uint32_t*)hash)[0];
 }
 
-int main()
-{
-	clock_t start = clock();
-	for (unsigned short i = 1; i > 0; i++)
-	{
+void printhash(unsigned int message_len, void*data) {
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_len;
 
-		std::string str = std::to_string(i);//转化为字符串
-		unsigned int message_len = strlen(str.c_str());
+    EVP_Digest(data, 4, hash, &hash_len, EVP_sm3(), NULL);
+    for (int i = 0; i < 32; i++)
+        printf("%x", hash[i]);
+    printf("\n");
+}
 
-		unsigned char hash[EVP_MAX_MD_SIZE];
-		unsigned int hash_len;
+unsigned int count_leading_zeros(unsigned char num) {
+    unsigned long index; // BitScanReverse() 函数需要一个 unsigned long 参数来存储结果
+    if (num == 0) {
+        // 处理输入为0的情况
+        return 8; // 返回整数的二进制表示的位数，通常是32或64
+    }
+    _BitScanReverse(&index, num); // 找到从最高位开始的第一个置位位的索引
+    return 8 - 1 - index; // 计算前导零的个数
+}
 
-		EVP_Digest(str.c_str(), message_len, hash, &hash_len, EVP_sm3(), NULL);
+// 函数用于判断两个数组从前面开始连续相同的 bit 数
+int countConsecutiveSameBits(unsigned char* arr1, unsigned char* arr2, int size) {
+    int count = 0;
 
-		/*std::cout << "SM3 hash value: ";
-		for (unsigned int i = 0; i < hash_len; i++) {
-			std::cout << std::hex << (unsigned int)hash[i];
-		}
-		std::cout << std::endl;*/
+    for (int i = 0; i < size; i++) {
+        unsigned char xor_result = arr1[i] ^ arr2[i]; // 计算两个元素的异或结果
+        int leading_zeros = count_leading_zeros(xor_result); // 获取异或结果中前导0的个数
 
-		int tem = hash28(hash[0], hash[1], hash[2], hash[3]);
-		if (arr[tem] != 0)
-		{
-			cout << "找到碰撞，原像为" << i << "和" << arr[tem] << endl;
-			cout << "hash值的28位";
-			//cout<<tem << endl;
-			std::bitset<32> binary5(tem);
+        // 如果异或结果全为0，表示两个元素相同，更新相同bit数
+        if (xor_result == 0) {
+            count += 8; // 一个字节有8个bit
+        }
+        else {
+            // 否则，找到第一个不相同的bit，退出循环
+            count += leading_zeros;
+            break;
+        }
+    }
 
-			std::cout << binary5 << std::endl;
-			clock_t end = clock();
-
-			double endtime = (double)(end - start) / CLOCKS_PER_SEC;
-
-			cout << "寻找hash值28位碰撞花费时间:" << endtime * 1000 << "ms(忽略前四位全0)" << endl;    //ms为单位
-			system("pause");
-			return 0;
-		}
-		else
-		{
-			arr[tem] = i;
-		}
-	}
-	cout << "找寻碰撞失败！" << endl;
-	clock_t end = clock();
-
-	double endtime = (double)(end - start) / CLOCKS_PER_SEC;
-
-	cout << "Total time:" << endtime * 1000 << "ms" << endl;    //ms为单位
-	system("pause");
-	return 0;
+    return count;
 }
 
 
+int main() {
+    //std::cout << count_leading_zeros(1);
+    //std::cout << count_leading_zeros(3);
+    //std::cout<< count_leading_zeros(5);
 
+    const char* fileName = "Birthday";
+    const ULONGLONG fileSize = (1LL << 32) * 4LL; // 
+    const ULONGLONG numElements = fileSize / sizeof(uint32_t);
+
+    // Create or open the file
+    HANDLE hFile = CreateFileA(
+        fileName,
+        GENERIC_READ | GENERIC_WRITE,
+        0,
+        NULL,
+        CREATE_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL,
+        NULL
+    );
+
+    if (hFile == INVALID_HANDLE_VALUE) {
+        std::cout << "Failed to create or open the file." << std::endl;
+        return 1;
+    }
+
+    // Set the size of the file
+    LARGE_INTEGER li;
+    li.QuadPart = fileSize;
+
+    if (!SetFilePointerEx(hFile, li, NULL, FILE_BEGIN)) {
+        std::cout << "Failed to set the file size." << std::endl;
+        CloseHandle(hFile);
+        return 1;
+    }
+
+    if (!SetEndOfFile(hFile)) {
+        std::cout << "Failed to set the end of the file." << std::endl;
+        CloseHandle(hFile);
+        return 1;
+    }
+
+    // Create a file mapping
+    HANDLE hMapFile = CreateFileMappingA(
+        hFile,
+        NULL,
+        PAGE_READWRITE,
+        li.HighPart,
+        li.LowPart,
+        NULL
+    );
+
+    if (hMapFile == NULL) {
+        std::cout << "Failed to create file mapping." << std::endl;
+        CloseHandle(hFile);
+        return 1;
+    }
+
+    // Map the file into memory
+    uint32_t* pData = static_cast<uint32_t*>(MapViewOfFile(
+        hMapFile,
+        FILE_MAP_ALL_ACCESS,
+        0,
+        0,
+        fileSize
+    ));
+
+    if (pData == NULL) {
+        std::cout << "Failed to map view of file." << std::endl;
+        CloseHandle(hMapFile);
+        CloseHandle(hFile);
+        return 1;
+    }
+
+    // Zero-initialize the memory (setting all values to zero)
+    ZeroMemory(pData, fileSize);
+
+#ifdef find32bit
+
+    LARGE_INTEGER frequency, start, end;
+    double elapsed_time;
+
+    // 获取频率
+    QueryPerformanceFrequency(&frequency);
+
+    // 获取开始时间
+    QueryPerformanceCounter(&start);
+    uint32_t i = 1;unsigned long long ind;
+    for (i = 1; i > 0; i++) {
+        ind = hash_out4byte(i);
+        if (pData[ind] != 0) {
+            uint32_t v = pData[ind];
+            printf("The 32bit of the collision is:%x\n", ind);
+            printf("The original image is:%x\nSM3 is:", i); printhash(4, &i);
+            printf("The original image is:%x\nSM3 is:", v); printhash(4, &v);
+            break;
+        }
+        pData[ind] = i;
+    }
+    QueryPerformanceCounter(&end);
+    // 计算运行时间（以毫秒为单位）
+    elapsed_time = (double)(end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
+
+    // 输出运行时间
+    printf("cost tion：%.2f ms\n", elapsed_time);
+#elif defined findBest
+    printf("try to find more collision\n");
+    int best = 0;
+    uint32_t i = 1; unsigned long long ind;
+    uint32_t best1, best2;
+    for (i = 1; i > 0; i++) {
+        ind = hash_out4byte(i);
+        if (pData[ind] != 0) {
+            uint32_t v = pData[ind];
+            unsigned char hash1[EVP_MAX_MD_SIZE];
+            unsigned char hash2[EVP_MAX_MD_SIZE];
+            unsigned int hash_len;
+            //printf("The 32bit of the collision is:%x\n", ind);
+            
+            EVP_Digest(&v, 4, hash1, &hash_len, EVP_sm3(), NULL);
+            EVP_Digest(&i, 4, hash2, &hash_len, EVP_sm3(), NULL);
+            int sameBits=countConsecutiveSameBits(hash1, hash2, 32);
+            //printf("%d\n", sameBits);
+            if (best < sameBits) {
+                best = sameBits;
+                printf("find %d bits collision\n", best);
+                printf("The original image is:%x\nSM3 is:", i); printhash(4, &i);
+                printf("The original image is:%x\nSM3 is:", v); printhash(4, &v);
+                best1 = v;
+                best2 = i;
+            }
+        }
+        pData[ind] = i;
+    }
+    printf("best collision is %d bits\n", best);
+#endif
+
+    // Unmap and close handles
+    UnmapViewOfFile(pData);
+    CloseHandle(hMapFile);
+    CloseHandle(hFile);
+
+    return 0;
+}

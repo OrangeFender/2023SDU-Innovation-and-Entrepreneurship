@@ -1,3 +1,8 @@
 ﻿  sm3.cpp
-C:\Users\lzdwy\Desktop\暑期\创新创业\实验一\Project1\Project1\sm3.cpp(45,49): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据
-  Project1.vcxproj -> C:\Users\lzdwy\Desktop\暑期\创新创业\实验一\Project1\x64\Debug\Project1.exe
+C:\CPP\Innovation Practical\Repo\Project1\Project1\sm3.cpp(178,20): warning C4477: “printf”: 格式字符串“%x”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“unsigned __int64”
+C:\CPP\Innovation Practical\Repo\Project1\Project1\sm3.cpp(178,20): message : 请考虑在格式字符串中使用“%llx”
+C:\CPP\Innovation Practical\Repo\Project1\Project1\sm3.cpp(178,20): message : 请考虑在格式字符串中使用“%Ix”
+C:\CPP\Innovation Practical\Repo\Project1\Project1\sm3.cpp(178,20): message : 请考虑在格式字符串中使用“%I64x”
+C:\CPP\Innovation Practical\Repo\Project1\Project1\sm3.cpp(195,12): warning C4477: “printf”: 格式字符串“%n”需要类型“int *”的参数，但可变参数 1 拥有了类型“int”
+C:\CPP\Innovation Practical\Repo\Project1\Project1\sm3.cpp(195,12): warning C4313: "printf": 格式字符串中的 "%n" 与类型为 "int" 的参数 1 冲突
+  Project1.vcxproj -> C:\CPP\Innovation Practical\Repo\Project1\x64\Debug\Project1.exe

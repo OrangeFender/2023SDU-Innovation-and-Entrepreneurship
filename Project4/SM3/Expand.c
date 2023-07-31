@@ -1,17 +1,15 @@
 ﻿typedef unsigned int UINT32;
 #include <immintrin.h>
-
+#include<string.h>
 void Expand(UINT32 B[16], UINT32 W[68 + 3], UINT32 Ww[64]) {//W长度为68但是需要加三以确保足够SIMD寄存器存放
+
     {
-        __m256i b;
-        b = _mm256_load_si256((__m256i*)B);
-        _mm256_store_si256((__m256i*)W, b);
-        b = _mm256_load_si256((__m256i*)(B + 8));
-        _mm256_store_si256((__m256i*)(W + 8), b);
+        memcpy(W, B, 64);
         
     }
     register __m128i va, vb, vc, vd, ve, vl, vr; 
     //register __m128i va, vb;
+#pragma loop(hint_parallel(17))
     for (int j = 16; j < 68; j += 3) {
 
     //    va = _mm_xor_si128(_mm_srli_epi32(*((__m128i*)W + j - 3), 32 - 15) , _mm_slli_epi32(*((__m128i*)W + j - 3), 15));
@@ -27,10 +25,10 @@ void Expand(UINT32 B[16], UINT32 W[68 + 3], UINT32 Ww[64]) {//W长度为68但是
     //     vb= _mm_xor_si128(va,vb);
     //     *(__m128i*)(W + j) = vb;
         
-        va = _mm_load_si128((__m128i*)(W + j - 16));
-        vb = _mm_load_si128((__m128i*)(W + j - 9));
-        vc = _mm_load_si128((__m128i*)(W + j - 3));
-        vd = _mm_load_si128((__m128i*)(W + j - 13));
+        va = _mm_loadu_si128((__m128i*)(W + j - 16));
+        vb = _mm_loadu_si128((__m128i*)(W + j - 9));
+        vc = _mm_loadu_si128((__m128i*)(W + j - 3));
+        vd = _mm_loadu_si128((__m128i*)(W + j - 13));
         vl = _mm_slli_epi32(vc, 15);
         vr = _mm_srli_epi32(vc, 32 - 15);
         va = _mm_xor_si128(va, vl);
@@ -50,7 +48,7 @@ void Expand(UINT32 B[16], UINT32 W[68 + 3], UINT32 Ww[64]) {//W长度为68但是
         vc = _mm_xor_si128(vc, vl);
         ve = _mm_xor_si128(ve, vr);
         vc = _mm_xor_si128(ve, vc);
-        _mm_store_si128((__m128i*)(W + j), vc);
+        _mm_storeu_si128((__m128i*)(W + j), vc);
         
     }
     {

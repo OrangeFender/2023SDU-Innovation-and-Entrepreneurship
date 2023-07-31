@@ -19,6 +19,7 @@ void Expand(UINT32 B[16], UINT32 W[68 + 3], UINT32 Ww[64]);
 void compress(UINT32 V[8],UINT32 W[68], UINT32 Ww[64]){
 UINT32 A,B,C,D,E,F,G,H,SS1,SS2,TT1,TT2;
 A=V[0];B=V[1];C=V[2];D=V[3];E=V[4];F=V[5];G=V[6];H=V[7];
+#pragma loop(hint_parallel(16))
 for(int j=0;j<16;j++){
 SS1=LeftRotate((LeftRotate(A,12)+E+LeftRotate(T1,j)),7);
 SS2=SS1^LeftRotate(A,12);
@@ -34,6 +35,7 @@ F=E;
 E=p0(TT2);
 
 }
+#pragma loop(hint_parallel(48))
 for(int j=16;j<64;j++){
 SS1=LeftRotate((LeftRotate(A,12)+E+LeftRotate(T2,j)),7);
 SS2=SS1^LeftRotate(A,12);
@@ -69,9 +71,9 @@ int SM3(int length, unsigned char* m, unsigned char* hash) {
     }
     memset(M,0,l);
 
-    for(int i=0;i<length;i++){
+    /*for(int i=0;i<length;i++){
         M[i]=m[i];
-    }
+    }*/
     memcpy(M, m, length);
     M[length]=0x80;
 

@@ -1,3 +1,0 @@
-﻿  源.cpp
-C:\Users\lzdwy\Desktop\暑期\创新创业\实验二\Project1\Project1\源.cpp(58,48): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据
-  Project1.vcxproj -> C:\Users\lzdwy\Desktop\暑期\创新创业\实验二\Project1\x64\Debug\Project1.exe

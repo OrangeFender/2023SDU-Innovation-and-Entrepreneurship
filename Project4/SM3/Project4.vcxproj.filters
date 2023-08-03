@@ -24,8 +24,5 @@
     <ClCompile Include="SM3.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Expand.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,2 @@
+﻿MSVCRTD.lib(exe_winmain.obj) : error LNK2019: 无法解析的外部符号 WinMain，函数 "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ) 中引用了该符号
+C:\CPP\Innovation Practical\Repo\Project8\aes\x64\Debug\aes.exe : fatal error LNK1120: 1 个无法解析的外部命令

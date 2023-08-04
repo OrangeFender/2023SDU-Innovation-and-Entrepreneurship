@@ -1,0 +1,4 @@
+﻿  sm4.cpp
+C:\CPP\Innovation Practical\Repo\Project8\sm4\sm4.cpp(37,21): warning C4101: “tmp”: 未引用的局部变量
+LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/OPT:ICF”规范)
+  sm4.vcxproj -> C:\CPP\Innovation Practical\Repo\Project8\sm4\x64\Release\sm4.exe

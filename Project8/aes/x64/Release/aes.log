@@ -1,0 +1,5 @@
+﻿  aes.cpp
+C:\CPP\Innovation Practical\Repo\Project8\aes\aes.cpp(240,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+C:\CPP\Innovation Practical\Repo\Project8\aes\aes.cpp(238,36): warning C4101: “XOR”: 未引用的局部变量
+LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/OPT:ICF”规范)
+  aes.vcxproj -> C:\CPP\Innovation Practical\Repo\Project8\aes\x64\Release\aes.exe

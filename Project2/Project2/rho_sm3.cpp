@@ -1,7 +1,9 @@
 #include <openssl/evp.h>
-#define MAsk 0b11111111'11111111'11111111'11111111'11111111'11111111'11111111 //56λ
+#define MAsk 0b11111111'11111111'11111111'11111111'11111111'11111111'11111111'11111111LLU//62λ
 #include<iostream>
 #include <random>
+#include <iomanip>
+
 
 uint64_t hash_masked(uint64_t x, uint64_t Mask)
 {
@@ -33,6 +35,7 @@ int main() {
     long long start = random_number & MAsk;
     long long h1 = start;
     long long h2 = start;
+
     do {
         h1 = hash_masked(h1, MAsk);
         h2 = hash_masked(h2, MAsk);
